@@ -32,5 +32,29 @@ class MainActivity : AppCompatActivity() {
         my_view.text = "LOL"
         my_view.setOnClickListener { v -> v.toString() }
 
+        setMyCustomListener { v -> v.bringToFront() }
+
+        doAsync {
+//            op1()
+//            op2()
+//            op3()
+        }
+    }
+
+    // Lambda
+    fun setMyCustomListener(listener: (view: View) -> Unit) {
+    }
+
+    // DSL
+    // doAsync will create anonymous classes
+    // Replace f() with any number of functions when calling doAsync
+    fun doAsync(f: () -> Unit) {
+        Thread({ f() }).start()
+    }
+
+    // Using "inline" will replace the code of doAsync2 function in each usage at compile time
+    // inline functions does not require as many resources as non-inline one
+    inline fun doAsync2(crossinline f: () -> Unit) {
+        Thread({ f() }).start()
     }
 }
