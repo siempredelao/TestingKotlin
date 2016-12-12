@@ -2,7 +2,10 @@ package can.siempredelao.kotling
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -39,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 //            op2()
 //            op3()
         }
+
+        val aLinearLayout = LinearLayout(this);
+        aLinearLayout.children.forEach { it.visible() }
     }
 
     // Lambda
@@ -57,4 +63,15 @@ class MainActivity : AppCompatActivity() {
     inline fun doAsync2(crossinline f: () -> Unit) {
         Thread({ f() }).start()
     }
+
+    // Extension function
+    fun View.visible() {
+        visibility = View.VISIBLE
+    }
+
+    fun ViewGroup.inflate(layoutRes: Int): View {
+        return LayoutInflater.from(context).inflate(layoutRes, this, false)
+    }
+
+    val ViewGroup.children: List<View> get() = (0..childCount - 1).map { getChildAt(it) }
 }
