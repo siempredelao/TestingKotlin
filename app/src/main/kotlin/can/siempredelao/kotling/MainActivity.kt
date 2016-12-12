@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,5 +28,7 @@ class MainActivity : AppCompatActivity() {
         val d: Int = 20
 //        val e: Long = d // does not compile, unable to assign to a complex type, casting needed
         val e: Long = d.toLong()
+
+        my_view.text = "LOL"
     }
 }
