@@ -30,5 +30,7 @@ class MainActivity : AppCompatActivity() {
         val e: Long = d.toLong()
 
         my_view.text = "LOL"
+        my_view.setOnClickListener { v -> v.toString() }
+
     }
 }
