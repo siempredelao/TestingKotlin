@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -67,6 +68,34 @@ class MainActivity : AppCompatActivity() {
         // Object copy
         val person3 = Person3("John", "Smith", "123abc")
         val person4 = person3.copy(surname="Rogers")
+
+        // Functional operators
+        aLinearLayout.children.forEach { v -> v.visibility = VISIBLE }
+        // , or better:
+        aLinearLayout.children.forEach { it.visibility = VISIBLE }
+
+        // maps a integer range to a view collection (aLinearLayout children)
+        val childViews = (0..aLinearLayout.childCount - 1).map { aLinearLayout.getChildAt(it) }
+
+        // filters a collection elements
+        val childViews2 = aLinearLayout.children.filter { it is ViewGroup }
+        // in this case, we have filterIsInstance to perform the same action
+        val childViews3 = aLinearLayout.children.filterIsInstance<ViewGroup>()
+
+        // takes the first/last TextView child
+        val firstTextView = aLinearLayout.children.first { it is TextView }
+        val lastTextView = aLinearLayout.children.last { it is TextView }
+
+        // sorts children by visibility
+        val firstTextView2 = aLinearLayout.children.sortedBy { it.visibility }
+
+        // takes those children which are instance of ViewGroup, sort them by visibility and take those which
+        // visibility is lower than GONE (in theory, VISIBLE and INVISIBLE)
+        (0..aLinearLayout.childCount - 1)
+                .map { aLinearLayout.getChildAt(it) }
+                .filterIsInstance<ViewGroup>()
+                .sortedBy { it.visibility }
+                .takeWhile { it.visibility < View.GONE }
     }
 
     private fun runLongTask(): Int {
