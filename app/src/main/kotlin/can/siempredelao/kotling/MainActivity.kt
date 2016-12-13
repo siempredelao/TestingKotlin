@@ -186,6 +186,19 @@ class MainActivity : AppCompatActivity() {
         operator fun get(id: Long) = listOf(Employee(1235, "John"), Employee(2584, "Mike")).first { it.id == id }
 
         val mike2 = company[2584]
+
+        // Lambdas extended
+        view.setOnClickListener({ v -> toast("Hello") })
+        // last parameter = function, function can go out of parenthesis
+        view.setOnClickListener() { v -> toast("Hello") }
+        // the only parameter is a function, no parenthesis needed
+        view.setOnClickListener { v -> toast("Hello") }
+        // lambda parameters not used, function left side can be deleted
+        view.setOnClickListener { toast("Hello") }
+
+        view.setOnClickListener { v -> v.showContextMenu() }
+        // functions with only one parameter can be replaced with the keyword 'it'
+        view.setOnClickListener { it.showContextMenu() }
     }
 
     private fun runLongTask(): Int {
