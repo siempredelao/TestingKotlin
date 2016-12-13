@@ -21,6 +21,9 @@ import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var textView10:TextView
+    val textView11 by lazy { findView<TextView>(R.id.my_view) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -156,6 +159,16 @@ class MainActivity : AppCompatActivity() {
         startActivity<MainActivity>()
 
 //        findView(R.id.my_view) // not working :s
+
+        // Delegated properties
+        textView10 = findView(R.id.my_view)
+        toast(textView10.text)
+
+        toast(textView11.text)
+
+//        var items: List<Item> by Delegates.observable(emptyList()) {
+//            p, old, new -> notifyDataSetChanged()
+//        }
     }
 
     private fun runLongTask(): Int {
