@@ -1,7 +1,8 @@
 package can.siempredelao.kotling
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
@@ -150,6 +151,11 @@ class MainActivity : AppCompatActivity() {
             view is ViewGroup -> "child count: ${view.getChildCount()}"
             else -> ""
         }
+
+        // Reified types
+        startActivity<MainActivity>()
+
+//        findView(R.id.my_view) // not working :s
     }
 
     private fun runLongTask(): Int {
@@ -212,4 +218,10 @@ class MainActivity : AppCompatActivity() {
         f()
         return true
     }
+
+    inline fun <reified T : Activity> Activity.startActivity() {
+        startActivity(Intent(this, T::class.java))
+    }
+
+    inline fun <reified T> Activity.findView(id: Int) = findViewById(id) as T
 }
