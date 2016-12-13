@@ -1,5 +1,7 @@
 package can.siempredelao.kotling
 
+import android.R.attr.button
+import android.R.attr.padding
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -16,10 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.sp
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -213,6 +212,28 @@ class MainActivity : AppCompatActivity() {
         val g: Int? = null
         // throws NPE if g is null
         val h = g!!.toDouble()
+
+        // Dialogs
+        alert("Testing alerts") {
+            title("Alert")
+            positiveButton("Cool") { toast("Yess!!!") }
+            negativeButton("Never Ever") { }
+            neutralButton("I'll think about it")
+        }.show()
+
+        alert {
+            title("Alert")
+            positiveButton("Cool") { toast("Yess!!!") }
+            customView {
+                linearLayout {
+                    textView("I'm a text")
+                    button("I'm a button")
+                    padding = dip(16)
+                }
+            }
+        }.show()
+
+        indeterminateProgressDialog("This a progress dialog").show()
     }
 
     private fun runLongTask(): Int {
