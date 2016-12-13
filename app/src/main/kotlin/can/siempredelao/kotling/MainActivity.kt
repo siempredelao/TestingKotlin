@@ -19,6 +19,8 @@ import android.widget.ListView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.db.select
 
 class MainActivity : AppCompatActivity() {
 
@@ -234,6 +236,28 @@ class MainActivity : AppCompatActivity() {
         }.show()
 
         indeterminateProgressDialog("This a progress dialog").show()
+
+        // Databases
+        database.use {
+            insert("Person",
+                    "_id" to 1,
+                    "name" to "John",
+                    "surname" to "Smith",
+                    "age" to 20)
+        }
+
+        database.use {
+            select("Person")
+                    .where("(_id = {id}) and (name = {name})",
+                            "id" to 1,
+                            "name" to "John")
+        }
+
+        database.use {
+            select("Person")
+                    .whereSimple("(_id = ?) and (name = ?)",
+                            1.toString(), "John")
+        }
     }
 
     private fun runLongTask(): Int {

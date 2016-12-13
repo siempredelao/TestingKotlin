@@ -36,6 +36,7 @@ dependencies {
 	compile 'com.android.support:recyclerview-v7:24.2.0'
 	kapt 'com.google.dagger:dagger-compiler:2.5'
 	compile 'com.google.dagger:dagger:2.5'
+	compile 'org.jetbrains.anko:anko-sqlite:0.9'
 }
 repositories {
 	mavenCentral()
