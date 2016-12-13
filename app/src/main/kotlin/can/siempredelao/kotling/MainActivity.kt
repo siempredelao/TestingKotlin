@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,14 +40,21 @@ class MainActivity : AppCompatActivity() {
 
         setMyCustomListener { v -> v.bringToFront() }
 
+        // Background thread
         doAsync {
-//            op1()
-//            op2()
-//            op3()
+            var result = runLongTask()
+            uiThread { // This block runs on UI thread, as its name says... :p
+                toast(result)
+            }
         }
 
         val aLinearLayout = LinearLayout(this);
         aLinearLayout.children.forEach { it.visible() }
+    }
+
+    private fun runLongTask(): Int {
+        Thread.sleep(5000)
+        return 0
     }
 
     // Lambda
@@ -54,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     // DSL
     // doAsync will create anonymous classes
     // Replace f() with any number of functions when calling doAsync
-    fun doAsync(f: () -> Unit) {
+    fun doAsync3(f: () -> Unit) {
         Thread({ f() }).start()
     }
 
