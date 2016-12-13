@@ -178,6 +178,14 @@ class MainActivity : AppCompatActivity() {
         recycler.adapter = MyAdapter(items) {
             toast("${it.title} Clicked")
         }
+
+        // Operator overloading
+        val company = Company(listOf(Employee(1235, "John"), Employee(2584, "Mike")))
+        val mike = company[1]
+
+        operator fun get(id: Long) = listOf(Employee(1235, "John"), Employee(2584, "Mike")).first { it.id == id }
+
+        val mike2 = company[2584]
     }
 
     private fun runLongTask(): Int {
@@ -246,4 +254,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     inline fun <reified T> Activity.findView(id: Int) = findViewById(id) as T
+
+    class Employee(val id: Long, val name: String)
+
+    class Company(private val employees: List<Employee>) {
+        operator fun get(pos: Int) = employees[pos]
+    }
 }
