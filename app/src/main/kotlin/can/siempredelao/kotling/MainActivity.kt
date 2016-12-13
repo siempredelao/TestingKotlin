@@ -199,6 +199,20 @@ class MainActivity : AppCompatActivity() {
         view.setOnClickListener { v -> v.showContextMenu() }
         // functions with only one parameter can be replaced with the keyword 'it'
         view.setOnClickListener { it.showContextMenu() }
+
+        // Nulls in Kotlin
+        val q: Int? = null
+        if (q != null) {
+            val r = q.toDouble()
+        }
+        // easier (r is Double? type)
+        val r = q?.toDouble()
+        // return a different value if variable is null (t is Double type)
+        val t = q?.toDouble() ?: 0.0
+
+        val g: Int? = null
+        // throws NPE if g is null
+        val h = g!!.toDouble()
     }
 
     private fun runLongTask(): Int {
