@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.sp
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
@@ -96,6 +97,33 @@ class MainActivity : AppCompatActivity() {
                 .filterIsInstance<ViewGroup>()
                 .sortedBy { it.visibility }
                 .takeWhile { it.visibility < View.GONE }
+
+        // Generic functions
+        // Instead of val childViews = (0..aLinearLayout.childCount - 1).map { aLinearLayout.getChildAt(it) }
+        with(aLinearLayout) { // avoid repeating aLinearLayout
+            val childViews = (0..childCount - 1).map { getChildAt(it) }
+        }
+
+        with2(my_view) {
+            text = "Hello World"
+            visibility = View.VISIBLE
+            textSize = sp(14).toFloat()
+        }
+
+        val textView = with3(TextView(this)) {
+            text = "Hello World"
+            visibility = View.VISIBLE
+            textSize = sp(14).toFloat()
+        }
+
+        val textView2 = TextView(this).apply {
+            text = "Hello World"
+            visibility = View.VISIBLE
+            textSize = sp(14).toFloat()
+        }
+
+        // If TextView text is not null, show a toast
+        textView?.text?.let { toast(it) }
     }
 
     private fun runLongTask(): Int {
@@ -130,4 +158,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     val ViewGroup.children: List<View> get() = (0..childCount - 1).map { getChildAt(it) }
+
+    inline fun <T> with2(obj: T, f: T.() -> Unit) {
+        obj.f()
+    }
+
+    // Builder: returns a generic type
+    inline fun <T> with3(obj: T, f: T.() -> Unit): T {
+        obj.f()
+        return obj
+    }
+
 }
