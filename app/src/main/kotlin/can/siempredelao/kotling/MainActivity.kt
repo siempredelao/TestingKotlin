@@ -48,8 +48,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val aLinearLayout = LinearLayout(this);
+        val aLinearLayout = LinearLayout(this)
         aLinearLayout.children.forEach { it.visible() }
+
+        data class Person2(var name: String, var surname: String, var id: String)
+
+        // Destructuring declaration
+        val person2 = Person2("x", "y", "z")
+        val (n, s, i) = person2
+
+        val map = mapOf(1 to "a", 2 to "b")
+        for ((key, value) in map) {
+            toast("key: $key, value: $value")
+        }
+
+        data class Person3(val name: String, val surname: String, val id: String)
+
+        // Object copy
+        val person3 = Person3("John", "Smith", "123abc")
+        val person4 = person3.copy(surname="Rogers")
     }
 
     private fun runLongTask(): Int {
