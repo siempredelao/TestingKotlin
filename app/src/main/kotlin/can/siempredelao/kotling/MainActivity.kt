@@ -1,12 +1,16 @@
 package can.siempredelao.kotling
 
 import android.os.Bundle
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.doAsync
@@ -124,6 +128,28 @@ class MainActivity : AppCompatActivity() {
 
         // If TextView text is not null, show a toast
         textView?.text?.let { toast(it) }
+
+        // When clause
+        when (textView.visibility) {
+            View.VISIBLE -> toast("visible")
+            View.INVISIBLE -> toast("invisible")
+            else -> toast("gone")
+        }
+
+        val view = View(this)
+        when (view) { // Checking types on left side: right side will be casted to that type
+            is TextView -> toast(view.text)
+            is ListView -> toast("Item count = ${view.adapter.count}")
+            is SearchView -> toast("Current query: ${view.query}")
+            else -> toast("View type not supported")
+        }
+
+        val res = when { // when without parameter
+            x in 1..10 -> "cheap"
+            s.contains("hello") -> "it's a welcome!"
+            view is ViewGroup -> "child count: ${view.getChildCount()}"
+            else -> ""
+        }
     }
 
     private fun runLongTask(): Int {
@@ -169,4 +195,21 @@ class MainActivity : AppCompatActivity() {
         return obj
     }
 
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.home -> consume { navigateToHome() }
+//        R.id.search -> consume { MenuItemCompat.expandActionView(item) }
+//        R.id.settings -> consume { navigateToSettings() }
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun navigateToSettings() {
+    }
+
+    private fun navigateToHome() {
+    }
+
+    inline fun consume(f: () -> Unit): Boolean {
+        f()
+        return true
+    }
 }
